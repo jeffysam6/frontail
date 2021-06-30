@@ -5,8 +5,8 @@
     <title>tail -f __TITLE__</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/frontail/styles/__THEME__.css">
-    <link rel="icon" href="/frontail/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/styles/__THEME__.css">
+    <link rel="icon" href="/assets/favicon.ico">
 </head>
 
 <body>
@@ -33,13 +33,13 @@
     </div>
 
 
-    <script src="/frontail/socket.io/socket.io.js"></script>
-    <script src="/frontail/tinycon.min.js"></script>
-    <script src="/frontail/ansi_up.js"></script>
-    <script src="/frontail/app.js"></script>
+    <script src="/assets/socket.io/socket.io.js"></script>
+    <script src="/assets/tinycon.min.js"></script>
+    <script src="/assets/ansi_up.js"></script>
+    <script src="/assets/app.js"></script>
     <script type="text/javascript">
         var socket = new io.connect('/__NAMESPACE__', {
-            path: '/frontail/socket.io',
+            path: '/assets/socket.io',
             transports: ['websocket']
         });
 
