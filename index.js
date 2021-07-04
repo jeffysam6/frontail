@@ -14,14 +14,35 @@ const serverBuilder = require('./lib/server_builder');
 const daemonize = require('./lib/daemonize');
 const usageStats = require('./lib/stats');
 
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+var cors = require('cors');
 /**
  * Parse args
  */
 program.parse(process.argv);
-if (program.args.length === 0) {
-  console.error('Arguments needed, use --help');
-  process.exit();
-}
+// if (program.args.length === 0) {
+//   console.error('Arguments needed, use --help');
+//   process.exit();
+// }
+
+
+const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
 
 /**
  * Init usage statistics
@@ -41,10 +62,39 @@ const filesNamespace = crypto.createHash('md5').update(files).digest('hex');
 const urlPath = program.urlPath.replace(/\/$/, ''); // remove trailing slash
 
 if (program.daemonize) {
+
+  app.use(cors(corsOpts));
+
+  app.use(bodyParser.urlencoded({ extended: true })); 
+  
+  app.use(bodyParser.json());
+  
+  app.post('/process', (req, res) => {
+    console.info('chosen process', req.body)
+    program.args = []
+    program.args.push(req.body.value)
+    console.info('args',program.args)
+    files = program.args.join(' ');
+    filesNamespace = crypto.createHash('md5').update(files).digest('hex');
+    daemonize(__filename, program, {
+      doAuthorization,
+      doSecure,
+    });
+    res.send('process changed')
+  });
+  
+  const port = 8080;
+  
+  app.listen(port, () => {
+    console.info(`Server running on port${port}`);
+  });
+
   daemonize(__filename, program, {
     doAuthorization,
     doSecure,
   });
+  
+
 } else {
   /**
    * HTTP(s) server setup

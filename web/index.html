@@ -7,6 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="__PATH__/styles/__THEME__.css">
     <link rel="icon" href="__PATH__/favicon.ico">
+    <script>
+        function handleProcess(value){
+            console.log("process value", value);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", 'http://127.0.0.1:8080/process', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                value: value,
+                test: 'okay'
+            }));
+        }
+    </script>
 </head>
 
 <body>
@@ -22,6 +34,13 @@
                 <div class="col-sm-3">
                     <form class="navbar-form-custom" role="search" onkeypress="return event.keyCode != 13;">
                         <input type="text" class="form-control query" placeholder="Filter" tabindex="1">
+                    </form>
+                    <form class="navbar-form-custom">
+                        <label for="processes">Select a processes:</label>
+                        <select name="processes" id="processes" onChange="handleProcess(this.value)">
+                        <option value="streamlogger1.csv">streamlogger1</option>
+                        <option value="streamlogger2.csv">streamlogger2</option>
+                        </select>
                     </form>
                 </div>
             </div>
