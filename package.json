@@ -1,11 +1,38 @@
 {
-  "name": "frontail",
-  "version": "4.9.2",
-  "description": "streaming logs to the browser",
-  "homepage": "https://github.com/mthenw/frontail",
-  "author": "Maciej Winnicki <maciej.winnicki@gmail.com>",
-  "license": "MIT",
-  "bin": "./bin/frontail",
+  "_from": "frontail",
+  "_id": "frontail@4.9.2",
+  "_inBundle": false,
+  "_integrity": "sha512-pR1Iqiw5d6oNuF57E3FqrQrlTTFmTaQ2QKKOo7C4QQf53d47cSIW+eGWoWRrGWxnnKoe3+HfWHgkZP15zJkf0w==",
+  "_location": "/frontail",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "frontail",
+    "name": "frontail",
+    "escapedName": "frontail",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/frontail/-/frontail-4.9.2.tgz",
+  "_shasum": "a7dc4adced625dbaa3fde08d268ce31f76180ae1",
+  "_spec": "frontail",
+  "_where": "C:\\Users\\jeffy\\Desktop\\tathya-django\\tathyaAPI\\tathya",
+  "author": {
+    "name": "Maciej Winnicki",
+    "email": "maciej.winnicki@gmail.com"
+  },
+  "bin": {
+    "frontail": "bin/frontail"
+  },
+  "bugs": {
+    "url": "https://github.com/mthenw/frontail/issues"
+  },
+  "bundleDependencies": false,
   "dependencies": {
     "CBuffer": "0.1.4",
     "basic-auth-connect": "1.0.0",
@@ -16,16 +43,21 @@
     "connect": "3.7.0",
     "cookie": "0.1.0",
     "cookie-parser": "1.4.5",
+    "cors": "^2.8.5",
     "daemon-fix41": "1.1.2",
+    "express": "^4.17.1",
     "express-session": "1.15.6",
     "fs-tail-stream": "1.1.0",
     "is-docker": "1.1.0",
     "serve-static": "1.14.1",
-    "socket.io": "3.1.2",
+    "socket.io": "2.3.0",
     "universal-analytics": "0.4.23",
     "untildify": "3.0.2",
+    "url": "^0.11.0",
     "uuid": "3.3.2"
   },
+  "deprecated": false,
+  "description": "streaming logs to the browser",
   "devDependencies": {
     "eslint": "~6.8.0",
     "eslint-config-airbnb-base": "~14.0.0",
@@ -38,23 +70,6 @@
     "sinon": "~1.7.3",
     "supertest": "^3.3.0",
     "temp": "~0.8.1"
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "test": "mocha -r should --exit test/*.js",
-    "pkg": "pkg --out-path=dist ."
-  },
-  "pkg": {
-    "assets": [
-      "preset/*.json",
-      "web/**/*"
-    ],
-    "targets": [
-      "node12-alpine-x64",
-      "node12-linux-x64",
-      "node12-macos-x64",
-      "node12-windows-x64"
-    ]
   },
   "eslintConfig": {
     "extends": [
@@ -74,14 +89,7 @@
       "web/assets/ansi_up.js"
     ]
   },
-  "prettier": {
-    "singleQuote": true,
-    "arrowParens": "always"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/mthenw/frontail.git"
-  },
+  "homepage": "https://github.com/mthenw/frontail",
   "keywords": [
     "tail",
     "syslog",
@@ -89,6 +97,33 @@
     "log",
     "devops"
   ],
+  "license": "MIT",
   "main": "index",
-  "preferGlobal": true
+  "name": "frontail",
+  "pkg": {
+    "assets": [
+      "preset/*.json",
+      "web/**/*"
+    ],
+    "targets": [
+      "node8-alpine-x64",
+      "node8-linux-x64",
+      "node8-macos-x64"
+    ]
+  },
+  "preferGlobal": true,
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mthenw/frontail.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pkg": "pkg --out-path=dist .",
+    "test": "mocha -r should --exit test/*.js"
+  },
+  "version": "4.9.2"
 }

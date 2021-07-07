@@ -12,6 +12,13 @@
     <script src="__PATH__/ansi_up.js"></script>
     <script src="__PATH__/app.js"></script>
     <script>
+        // var connect = function (ns) {
+        //     return new io.connect(`/${ns}`, {
+        //     query: 'ns='+ns,
+        //     path: '__PATH__/socket.io',
+        //     transports: ['websocket']
+        //     });
+        // }
 
         var socket = new io.connect(`/test`,{
         path: '__PATH__/socket.io',
@@ -22,18 +29,47 @@
     </script>
     <script>
         function handleProcess(value=''){
+            // document.body.innerHTML = "";
+
+            // if(socket){
+            //     socket.close()
+            // }
+
+            // console.log('is socket',socket == null)
+
             socket.close()
+
             socket = new io.connect(`/${value}`,{
                     path: '__PATH__/socket.io',
                     query: 'ns='+value,
                     transports: ['websocket']
                     });
+
+            // socket = connect(value);
+
             console.log('process value',value,socket)
 
             const elements = document.getElementsByClassName('line');
             while(elements.length > 0){
                 elements[0].parentNode.removeChild(elements[0]);
             }
+
+            // socket.on('connect', function(){
+            //     socket.emit('addprocessroom',value);
+            // });
+
+            // console.log("process value", value, 'namespace','__NAMESPACE__');
+            // var xhr = new XMLHttpRequest();
+            // xhr.open("POST", 'http://127.0.0.1:8080/process', true);
+            // xhr.setRequestHeader('Content-Type', 'application/json');
+            // xhr.send(JSON.stringify({
+            //     value: value,
+            // }));
+
+           
+            // var e = document.getElementById("processes");
+            // var strUser = e.options[e.selectedIndex].text;
+
             App.init({
             socket: socket,
             container: document.getElementsByClassName('log')[0],
@@ -47,6 +83,9 @@
             console.log('connected to namespace',value)
         }
     </script>
+    <!-- <script>
+        window.onload = handleProcess();
+    </script> -->
 </head>
 
 <body>
@@ -79,6 +118,25 @@
     <div class="container-fluid no-horiz-padding">
         <pre class="log"></pre>
     </div>
+    <!-- <script src="__PATH__/socket.io/socket.io.js"></script>
+    <script src="__PATH__/tinycon.min.js"></script>
+    <script src="__PATH__/ansi_up.js"></script>
+    <script src="__PATH__/app.js"></script>
+    <script type="text/javascript">
+        var socket = new io.connect({
+            path: '__PATH__/socket.io',
+            transports: ['websocket']
+        });
+
+        window.load = App.init({
+            socket: socket,
+            container: document.getElementsByClassName('log')[0],
+            filterInput: document.getElementsByClassName('query')[0],
+            pauseBtn: document.getElementsByClassName('btn-pause')[0],
+            topbar: document.getElementsByClassName('topbar')[0],
+            body: document.getElementsByTagName('body')[0]
+        });
+    </script> -->
 </body>
 
 </html>
