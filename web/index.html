@@ -12,63 +12,32 @@
     <script src="__PATH__/ansi_up.js"></script>
     <script src="__PATH__/app.js"></script>
     <script>
-        // var connect = function (ns) {
-        //     return new io.connect(`/${ns}`, {
-        //     query: 'ns='+ns,
-        //     path: '__PATH__/socket.io',
-        //     transports: ['websocket']
-        //     });
-        // }
-
-        var socket = new io.connect(`/test`,{
-        path: '__PATH__/socket.io',
-        query: 'ns= ',
-        transports: ['websocket']
-        });
-
+        var socket;
     </script>
     <script>
         function handleProcess(value=''){
-            // document.body.innerHTML = "";
-
-            // if(socket){
-            //     socket.close()
-            // }
-
-            // console.log('is socket',socket == null)
-
+            try{
+            console.log('closing socket',socket)
             socket.close()
+            }
+            catch {
 
+            }
             socket = new io.connect(`/${value}`,{
                     path: '__PATH__/socket.io',
                     query: 'ns='+value,
                     transports: ['websocket']
                     });
 
-            // socket = connect(value);
-
+            socket.on('welcome',function() {
+                console.log('received emit from server')
+            })
             console.log('process value',value,socket)
 
             const elements = document.getElementsByClassName('line');
             while(elements.length > 0){
                 elements[0].parentNode.removeChild(elements[0]);
             }
-
-            // socket.on('connect', function(){
-            //     socket.emit('addprocessroom',value);
-            // });
-
-            // console.log("process value", value, 'namespace','__NAMESPACE__');
-            // var xhr = new XMLHttpRequest();
-            // xhr.open("POST", 'http://127.0.0.1:8080/process', true);
-            // xhr.setRequestHeader('Content-Type', 'application/json');
-            // xhr.send(JSON.stringify({
-            //     value: value,
-            // }));
-
-           
-            // var e = document.getElementById("processes");
-            // var strUser = e.options[e.selectedIndex].text;
 
             App.init({
             socket: socket,
@@ -83,9 +52,6 @@
             console.log('connected to namespace',value)
         }
     </script>
-    <!-- <script>
-        window.onload = handleProcess();
-    </script> -->
 </head>
 
 <body>
@@ -106,8 +72,6 @@
                         <label for="processes">Select a processes:</label>
                         <select name="processes" id="processes" onChange="handleProcess(this.value)">
                         <option value="" selected disabled hidden>Choose here</option>
-                        <option value="streamlogger1.log">streamlogger1</option>
-                        <option value="streamlogger2.log">streamlogger2</option>
                         </select>
                     </form>
                 </div>
@@ -118,25 +82,26 @@
     <div class="container-fluid no-horiz-padding">
         <pre class="log"></pre>
     </div>
-    <!-- <script src="__PATH__/socket.io/socket.io.js"></script>
-    <script src="__PATH__/tinycon.min.js"></script>
-    <script src="__PATH__/ansi_up.js"></script>
-    <script src="__PATH__/app.js"></script>
-    <script type="text/javascript">
-        var socket = new io.connect({
-            path: '__PATH__/socket.io',
-            transports: ['websocket']
-        });
-
-        window.load = App.init({
-            socket: socket,
-            container: document.getElementsByClassName('log')[0],
-            filterInput: document.getElementsByClassName('query')[0],
-            pauseBtn: document.getElementsByClassName('btn-pause')[0],
-            topbar: document.getElementsByClassName('topbar')[0],
-            body: document.getElementsByTagName('body')[0]
-        });
-    </script> -->
+    <script>
+        function getProcess(){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", 'http://3.6.38.138:80/api/process/list', false );
+            xmlHttp.send( null );
+            console.log('get data',xmlHttp.responseText , JSON.parse(xmlHttp.responseText), JSON.parse(xmlHttp.responseText)['data']);
+            var select = document.getElementById("processes")
+            var process_json = JSON.parse(xmlHttp.responseText)['data'];
+            for(var i of process_json){
+                console.log(i)
+                var option = document.createElement('option')
+                option.value = `${i['name']}.log`
+                option.text = i['name']
+                select.appendChild(option)
+            }
+        }
+    </script>
+    <script>
+        window.onload = getProcess();
+    </script>
 </body>
 
 </html>

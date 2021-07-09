@@ -46,24 +46,8 @@ const builder = serverBuilder();
 
 const io = new SocketIO({ path: `${urlPath}/socket.io` });
 
-
-
-// var tailer = tail(program.args, {
-//   buffer: program.number,
-// });
-
-
-// var tailer1 = tail(['streamlogger1.csv'], {
-//   buffer: program.number,
-// });
-
-// var tailer2 = tail(['streamlogger2.csv'], {
-//   buffer: program.number,
-// });
-
-// var tailerObj = {'streamlogger1.csv':tailer1, 'streamlogger2.csv':tailer2}
-
 var tailerObj = {}
+var tailerListener = {}
 
 
 io.on('connection', (socket) => {
@@ -88,7 +72,9 @@ io.on('connection', (socket) => {
 
           io.of(`/${ns}`).on('connection', function (socket) {
 
-            console.info('connected to socket',ns)
+            console.info('connected to socket', ns)
+            
+            socket.emit('welcome',ns)
 
             socket.emit('options:lines', program.lines);
 
@@ -108,6 +94,7 @@ io.on('connection', (socket) => {
             tailerObj[ns].getBuffer().forEach((line) => {
               socket.emit('line', line);
             });
+
             
           });
   });
@@ -129,96 +116,6 @@ const corsOpts = {
     'Content-Type',
   ],
 };
-
-
-// tailerObj['streamlogger1.csv'].on('line', (line) => {
-//       console.info('stream 1 emit')
-//       io.of('/streamlogger1.csv').emit('line', line);
-//       });
-
-// tailerObj['streamlogger2.csv'].on('line', (line) => {
-//       console.info('stream 2 emit')
-//       io.of('/streamlogger2.csv').emit('line', line);
-// });
-// tailer1.on('line', (line) => {
-//   // console.info('emit',program.args)
-//   io.of('/streamlogger1.csv').emit('line', line);
-// });
-
-// tailer2.on('line', (line) => {
-//   // console.info('emit',program.args)
-//   io.of('/streamlogger2.csv').emit('line', line);
-// });
-
-
-// const attachFile = (program) => {
-
-//   files = program.args.join(' ');
-//   filesNamespace = crypto.createHash('md5').update(files).digest('hex');
-
-//   console.info('attach file for', files )
-
-
-//   // tailer = tail(program.args, {
-//   //   buffer: program.number,
-//   // });
-
-  // if(files === 'streamlogger1.csv'){
-    // tailer1.on('line', (line) => {
-    //   console.info('emit',program.args)
-    //   filesSocket1.to('streamlogger1.csv').emit('line', line);
-    // });
-  // }
-  // else if(files == 'streamlogger2.csv') {
-    // tailer2.on('line', (line) => {
-    //   console.info('emit',program.args)
-    //   filesSocket2.to('streamlogger2.csv').emit('line', line);
-    // });
-  // }
-  
-
-// }
-
-// app.use(cors(corsOpts));
-
-// app.use(bodyParser.urlencoded({ extended: true })); 
-
-// app.use(bodyParser.json());
-
-// app.post('/process', (req, res) => {
-//   console.info('chosen process', req.body)
-//   program.args = []
-//   if(req.body.value !== ''){
-//   program.args.push(req.body.value)
-  
-//   console.info('args',program.args)
-
-//   attachFile(program)
-//   }
-  
-//   res.send('process changed')
-// });
-
-
-// const port = 8080;
-
-// app.listen(port, () => {
-//   console.info(`Server running on port${port}`);
-// });
-
-/**
- * Parse args
- */
-
-
-
-
-// if (program.args.length === 0) {
-//   console.error('Arguments needed, use --help');
-//   process.exit();
-// }
-
-
 
 /**
  * Validate params
@@ -311,10 +208,7 @@ if (program.daemonize) {
   /**
    * Send incoming data
    */
-  // tailer.on('line', (line) => {
-  //   console.info('emit',line)
-  //   filesSocket.emit('line', line);
-  // });
+
 
   stats.track('runtime', 'started');
 
